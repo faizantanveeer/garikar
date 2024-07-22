@@ -1,27 +1,10 @@
-const express = require('express')
-const {loginRouter, signUpRouter, signUpHandler, loginHandler,logoutHandler} = require('../controllers/authController')
-const router = express.Router()
-const isLoggedIn = require('../middleware/isLoggedIn')
+const express = require('express');
+const router = express.Router();
+const authRoutes = require('./authRoutes');
+const carRoutes = require('./carRoutes');
 
+router.use('/', authRoutes)
+router.use('/auth', authRoutes);
+router.use('/car', carRoutes);
 
-
-router.get('/', function(req, res){
-  res.render('home' )
-})
-
-router.get('/bookcar', isLoggedIn,function(req, res){
-  res.render('book-car')
-})
-
-router.get('/login', loginRouter)
-
-router.get('/signup', signUpRouter)
-
-router.post('/auth/signup', signUpHandler)
-
-router.post('/auth/login', loginHandler)
-
-router.get('/auth/logout',logoutHandler)
-
-
-module.exports = router
+module.exports = router;

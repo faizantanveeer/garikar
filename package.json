@@ -8,11 +8,13 @@
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
+    "chance": "^1.1.12",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "dotenv": "^16.4.5",
     "ejs": "~2.6.1",
     "express": "~4.16.1",
+    "faker": "^6.6.6",
     "http-errors": "~1.6.3",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.5.1",

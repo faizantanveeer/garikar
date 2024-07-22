@@ -59,7 +59,7 @@ const loginHandler = async (req, res) => {
 		const token = jwt.sign({email: loginUser.email}, process.env.JWT_SECRET)
 		res.cookie("token", token)
 		
-		return res.redirect('/bookcar')
+		return res.redirect('/car/bookcar')
 	} catch (err) {
 		console.log(err)
 		return res.status(500).send(err);

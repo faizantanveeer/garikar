@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>GariKar</title>
+		<link href="/stylesheets/style.css" rel="stylesheet" />
+		<script src="https://cdn.tailwindcss.com"></script>
+		<style>
+			@font-face {
+				font-family: 'spacegrotesk';
+				src: url('../fonts/Binoma\ Trial-Bold.ttf');
+			}
+
+			@font-face {
+				font-family: 'unique';
+				src: url('../fonts/Binoma\ Trial-Regular.ttf');
+			}
+			h1 {
+				font-family: 'unique';
+			}
+			span {
+				font-family: 'spacegrotesk';
+			}
+		</style>
+	</head>
+	<body>
+		<div class="flex items-center h-full flex-col bg-zinc-900 text-white ">
+			<%- include('partials/header')%>
+
+			<div class="herodiv mt-20 flex flex-col justify-center items-center w-10/12">
+				<h1 class="text-5xl text-center text-white">
+					List Your Car
+				</h1>
+				<form action="/car/listcar" method="post" class="flex flex-col gap-y-8 mt-10 w-3/5 text-zinc-900">
+					<input class="rounded-lg pt-2 pb-2 pr-4 pl-4 border-2 border-zinc-400 outline-none	" name="make" type="text" placeholder="Enter Company Name"> 
+					<input class="rounded-lg pt-2 pb-2 pr-4 pl-4 border-2 border-zinc-400 outline-none	" name="model" type="text" placeholder="Enter Car Model Name"> 
+					<input class="rounded-lg pt-2 pb-2 pr-4 pl-4 border-2 border-zinc-400 outline-none	" name="year" type="text" placeholder="Enter Model Year"> 
+					<input class="rounded-lg pt-2 pb-2 pr-4 pl-4 border-2 border-zinc-400 outline-none	" name="color" type="text" placeholder="Enter Car Color"> 
+					<input class="rounded-lg pt-2 pb-2 pr-4 pl-4 border-2 border-zinc-400 outline-none	" name="engine" type="text" placeholder="Enter Engine Type"> 
+					<select class="rounded-lg pt-2 pb-2 pr-4 pl-4 border-2 border-zinc-400 outline-none	" name="transmission"  placeholder="Choose Transmission Type"> 
+                        <option value="Automatic">Automatic</option>
+                        <option value="Manual">Manual</option>
+                    </select>
+                    
+                    <select class="rounded-lg pt-2 pb-2 pr-4 pl-4 border-2 border-zinc-400 outline-none	" name="fuelType"  placeholder="Choose Transmission Type"> 
+                        <option value="Petrol">Petrol</option>
+                        <option value="Diesel">Diesel</option>
+                    </select>
+					<input class="rounded-lg pt-2 pb-2 pr-4 pl-4 border-2 border-zinc-400 outline-none	" name="mileage" type="number" placeholder="Enter Mileage"> 
+					<input class="rounded-lg pt-2 pb-2 pr-4 pl-4 border-2 border-zinc-400 outline-none	" name="image" type="text" placeholder="Enter Image URL"> 
+					<input class="rounded-lg pt-2 pb-2 pr-4 pl-4 border-2 border-zinc-400 outline-none	" name="pricePerDay" type="number" placeholder="Enter Price Per Day"> 
+					
+					<input class="rounded-lg pt-2 pb-2 pr-4 pl-4 bg-slate-700 font-bold	text-white cursor-pointer hover:bg-slate-400" type="submit" value="List Car">
+				</form>
+			</div>
+			<%- include('partials/footer')%>
+		</div>
+	</body>
+</html>

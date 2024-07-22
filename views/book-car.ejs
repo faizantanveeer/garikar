@@ -4,8 +4,15 @@
 		<title>GariKar</title>
 		<link href="/stylesheets/style.css" rel="stylesheet" />
 		<script src="https://cdn.tailwindcss.com"></script>
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+			integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+			crossorigin="anonymous"
+			referrerpolicy="no-referrer"
+		/>
 	</head>
-	<body>
+	<body class="bg-zinc-900 text-white">
 		<div class="flex justify-center items-center flex-col">
 			<%- include('partials/header')%>
 
@@ -13,118 +20,65 @@
 				class="search h-9 flex gap-0 rounded-md hover:drop-shadow-md active:outline-8 mt-4"
 			>
 				<input
-					class="pl-4 pr-4 pt-2 pb-2 rounded-tl-md rounded-bl-md w-96 border-2 border-green-300"
+					class="pl-4 pr-4 pt-2 pb-2 rounded-tl-md rounded-bl-md w-96 border-2 text-zinc-900"
 					type="text"
 					placeholder="Search Your Gari"
 				/>
 				<button
-					class="button bg-green-300 pl-4 pr-4 rounded-tr-md rounded-br-md font-bold text-green-800"
+					class="button bg-white pl-4 pr-4 rounded-tr-md rounded-br-md font-bold text-zinc-900"
 				>
 					Search
 				</button>
 			</div>
 			<div class="mt-12 w-10/12 flex gap-x-5">
-				<div
-					class="bg-green-300 w-72 rounded-lg h-96 static flex flex-col"
-				>
+				<div class="bg-white w-72 rounded-lg h-96 static flex flex-col">
 					<h1
-						class=" text-center text-green-800 font-bold pt-3 text-lg"
+						class="text-center text-zinc-900 font-bold pt-3 text-lg"
 					>
 						Category
 					</h1>
 
 					<div
-						class="items-start pl-4  font-bold mt-4 text-green-900 flex flex-col justify-start gap-y-3 text-left"
+						class="items-start pl-4 font-bold mt-4 flex flex-col justify-start gap-y-3 text-left text-zinc-900"
 					>
-						<button class="p-1 hover:border- border-green-900">
-							Suzuki
-						</button>
-						<button class="p-1 hover:border- border-green-900">
-							Corolla
-						</button>
-						<button class="p-1 hover:border- border-green-900">
-							Honda
-						</button>
-						<button class="p-1 hover:border- border-green-900">
-							Kia
-						</button>
+						<button class="p-1">Suzuki</button>
+						<button class="p-1">Corolla</button>
+						<button class="p-1">Honda</button>
+						<button class="p-1">Kia</button>
 					</div>
 				</div>
 
-				<div class="  rounded-lg ">
-					<div class="flex justify-normal flex-wrap gap-10  m-0 pl-3 border-red-700">
+				<div class="rounded-lg">
+					<div class=" flex gap-12 flex-wrap">
+						<%cars.forEach( car=> {%>
 						<div
-							class="card bg-slate-600 w-48 rounded-lg cursor-pointer"
+							class="card bg-slate-600 w-auto rounded-lg cursor-pointer flex flex-col"
 						>
-							<img
-								class="rounded-tl-lg rounded-tr-lg"
-								src="https://i.redd.it/i-got-bored-so-i-decided-to-draw-a-random-image-on-the-v0-4ig97vv85vjb1.png?width=1280&format=png&auto=webp&s=7177756d1f393b6e093596d06e1ba539f723264b"
-								alt=""
-							/>
-							<div class="pl-5 pt-2 pb-2">  
-								<p class="text-white">Suzuki</p>
+							<div class="w-60 h-52 rounded-tl-lg rounded-tr-lg">
+								<img
+									class="object-cover h-52 w-60 rounded-tl-lg rounded-tr-lg"
+									src="<%=car.image%>"
+									alt="<%=car.make%> <%=car.model%>"
+								/>
+							</div>
+							<div
+								class="pl-4 pr-5 pt-2 pb-2 flex items-center justify-between"
+							>
+								<div class="">
+									<p class="text-white font-semibold">
+										<%=car.make%> <%=car.model%>
+									</p>
+									<p class="text-white font-semibold">
+										<%=car.pricePerDay%> PKR
+									</p>
+								</div>
+								<i
+									class="fa fa-plus-circle text-white items-end text-3xl"
+									aria-hidden="true"
+								></i>
 							</div>
 						</div>
-						<div
-							class="card bg-slate-600 w-48 rounded-lg cursor-pointer"
-						>
-							<img
-								class="rounded-tl-lg rounded-tr-lg"
-								src="https://i.redd.it/i-got-bored-so-i-decided-to-draw-a-random-image-on-the-v0-4ig97vv85vjb1.png?width=1280&format=png&auto=webp&s=7177756d1f393b6e093596d06e1ba539f723264b"
-								alt=""
-							/>
-							<div class="pl-5 pt-2 pb-2">
-								<p class="text-white">Suzuki</p>
-							</div>
-						</div>
-						<div
-							class="card bg-slate-600 w-48 rounded-lg cursor-pointer"
-						>
-							<img
-								class="rounded-tl-lg rounded-tr-lg"
-								src="https://i.redd.it/i-got-bored-so-i-decided-to-draw-a-random-image-on-the-v0-4ig97vv85vjb1.png?width=1280&format=png&auto=webp&s=7177756d1f393b6e093596d06e1ba539f723264b"
-								alt=""
-							/>
-							<div class="pl-5 pt-2 pb-2">
-								<p class="text-white">Suzuki</p>
-							</div>
-						</div>
-						<div
-							class="card bg-slate-600 w-48 rounded-lg cursor-pointer"
-						>
-							<img
-								class="rounded-tl-lg rounded-tr-lg"
-								src="https://i.redd.it/i-got-bored-so-i-decided-to-draw-a-random-image-on-the-v0-4ig97vv85vjb1.png?width=1280&format=png&auto=webp&s=7177756d1f393b6e093596d06e1ba539f723264b"
-								alt=""
-							/>
-							<div class="pl-5 pt-2 pb-2">
-								<p class="text-white">Suzuki</p>
-							</div>
-						</div>
-						<div
-							class="card bg-slate-600 w-48 rounded-lg cursor-pointer"
-						>
-							<img
-								class="rounded-tl-lg rounded-tr-lg"
-								src="https://i.redd.it/i-got-bored-so-i-decided-to-draw-a-random-image-on-the-v0-4ig97vv85vjb1.png?width=1280&format=png&auto=webp&s=7177756d1f393b6e093596d06e1ba539f723264b"
-								alt=""
-							/>
-							<div class="pl-5 pt-2 pb-2">
-								<p class="text-white">Suzuki</p>
-							</div>
-						</div>
-						<div
-							class="card bg-slate-600 w-48 rounded-lg cursor-pointer"
-						>
-							<img
-								class="rounded-tl-lg rounded-tr-lg"
-								src="https://i.redd.it/i-got-bored-so-i-decided-to-draw-a-random-image-on-the-v0-4ig97vv85vjb1.png?width=1280&format=png&auto=webp&s=7177756d1f393b6e093596d06e1ba539f723264b"
-								alt=""
-							/>
-							<div class="pl-5 pt-2 pb-2">
-								<p class="text-white">Suzuki</p>
-							</div>
-						</div>
+						<%})%>
 					</div>
 				</div>
 			</div>

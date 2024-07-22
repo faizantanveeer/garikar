@@ -1,14 +1,24 @@
 const mongoose = require('mongoose');
-
-const db = require('../db/db');
 const Schema = mongoose.Schema;
+const db = require('../db/db')
 
-
-
-const userSchema = new Schema({
-	name: String,
-	email: String,
-	password: String,
+// Define the schema for a user
+const UserSchema = new Schema({
+	name: { type: String, required: true, unique: true },
+	email: { type: String, required: true, unique: true },
+	password: { type: String, required: true },
+	favoriteCars: [{ type: Schema.Types.ObjectId, ref: 'Car' }],
+	bookings: [
+		{
+			car: { type: Schema.Types.ObjectId, ref: 'Car' },
+			startDate: Date,
+			endDate: Date,
+			totalAmount: Number,
+			rating: { type: Number, min: 1, max: 5 }, // Rating provided by the user
+		},
+	],
+	ownedCars: [{ type: Schema.Types.ObjectId, ref: 'Car' }], // List of cars owned by the user
 });
 
-module.exports = mongoose.model('User', userSchema);
+const User = mongoose.model('User', UserSchema);
+module.exports = User;
