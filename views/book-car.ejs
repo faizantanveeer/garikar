@@ -49,7 +49,7 @@
 				</div>
 
 				<div class="rounded-lg">
-					<div class=" flex gap-12 flex-wrap">
+					<div class="flex gap-12 flex-wrap">
 						<%cars.forEach( car=> {%>
 						<div
 							class="card bg-slate-600 w-auto rounded-lg cursor-pointer flex flex-col"
@@ -72,10 +72,16 @@
 										<%=car.pricePerDay%> PKR
 									</p>
 								</div>
-								<i
-									class="fa fa-plus-circle text-white items-end text-3xl"
-									aria-hidden="true"
-								></i>
+
+								<button
+									class="add-to-favorites text-white"
+									data-car-id="<%= car._id %>"
+									data-in-favorites="<%= car.isFavorite %>"
+								>
+									<i
+										class="fa fa-plus-circle items-end text-3xl <%= car.isFavorite ? 'text-green-500' : 'text-white' %>"
+									></i>
+								</button>
 							</div>
 						</div>
 						<%})%>
@@ -84,5 +90,7 @@
 			</div>
 			<%- include('partials/footer')%>
 		</div>
+
+		<script src="../javascripts/favourite.js"></script>
 	</body>
 </html>

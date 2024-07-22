@@ -61,12 +61,52 @@ const listCar = async (req, res) => {
 };
 
 const getAllCars = async (req, res) => {
-    try {
-        const cars = await Car.find();
-        res.render('book-car', { cars });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ message: 'Server error while fetching cars' });
-    }
+	try {
+		const cars = await Car.find();
+		res.render('book-car', { cars });
+	} catch (err) {
+		console.error(err);
+		res.status(500).json({ message: 'Server error while fetching cars' });
+	}
 };
-module.exports = { listCar, getAllCars };
+
+const addToFavorite = async (req, res) => {
+	try {
+		const { carId, isFavorite } = req.body;
+
+		console.log(`Car ID: ${carId}, isFavorite: ${isFavorite}`);
+
+		const token = req.cookies.token;
+		const decoded = jwt.verify(token, process.env.JWT_SECRET);
+		const user = await User.findOne({ email: decoded.email });
+
+		console.log(`User found: ${user}`);
+
+		if (!user) {
+			return res.status(404).json({ message: 'User not found' });
+		}
+
+		if (isFavorite) {
+			// Remove from favorites
+			user.favoriteCars.pull(carId);
+			console.log(`Removing car ID ${carId} from favorites`);
+		} else {
+			// Add to favorites
+			if (!user.favoriteCars.includes(carId)) {
+				user.favoriteCars.push(carId);
+				console.log(`Adding car ID ${carId} to favorites`);
+			}
+		}
+
+		await user.save();
+		console.log('Favorite status toggled successfully');
+		res.status(200).json({
+			message: 'Favorite status toggled successfully',
+		});
+	} catch (err) {
+		console.error(err);
+		res.status(500).json({ message: 'Server error' });
+	}
+};
+
+module.exports = { listCar, getAllCars, addToFavorite };
