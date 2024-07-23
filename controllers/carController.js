@@ -62,51 +62,34 @@ const listCar = async (req, res) => {
 
 const getAllCars = async (req, res) => {
 	try {
-		const cars = await Car.find();
-		res.render('book-car', { cars });
+		const make = req.query.make;
+		let cars;
+
+		// Log received make parameter for debugging
+
+		if (make) {
+			cars = await Car.find({ make: make.trim() }); // Trim to avoid issues with extra spaces
+		} else {
+			cars = await Car.find();
+		}
+
+		// Fetch the count of cars for each make
+		const makesWithCounts = await Car.aggregate([
+			{ $group: { _id: '$make', count: { $sum: 1 } } },
+			{ $sort: { _id: 1 } }, // Optional: Sort by make name
+		]);
+
+		// Transform the data to a more usable format for rendering
+		const makes = makesWithCounts.map((make) => ({
+			name: make._id,
+			count: make.count,
+		}));
+
+		res.render('book-car', { cars, makes });
 	} catch (err) {
 		console.error(err);
 		res.status(500).json({ message: 'Server error while fetching cars' });
 	}
 };
 
-const addToFavorite = async (req, res) => {
-	try {
-		const { carId, isFavorite } = req.body;
-
-		console.log(`Car ID: ${carId}, isFavorite: ${isFavorite}`);
-
-		const token = req.cookies.token;
-		const decoded = jwt.verify(token, process.env.JWT_SECRET);
-		const user = await User.findOne({ email: decoded.email });
-
-		console.log(`User found: ${user}`);
-
-		if (!user) {
-			return res.status(404).json({ message: 'User not found' });
-		}
-
-		if (isFavorite) {
-			// Remove from favorites
-			user.favoriteCars.pull(carId);
-			console.log(`Removing car ID ${carId} from favorites`);
-		} else {
-			// Add to favorites
-			if (!user.favoriteCars.includes(carId)) {
-				user.favoriteCars.push(carId);
-				console.log(`Adding car ID ${carId} to favorites`);
-			}
-		}
-
-		await user.save();
-		console.log('Favorite status toggled successfully');
-		res.status(200).json({
-			message: 'Favorite status toggled successfully',
-		});
-	} catch (err) {
-		console.error(err);
-		res.status(500).json({ message: 'Server error' });
-	}
-};
-
-module.exports = { listCar, getAllCars, addToFavorite };
+module.exports = { listCar, getAllCars };

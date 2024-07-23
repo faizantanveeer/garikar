@@ -23,7 +23,9 @@ const signUpHandler = (req, res) => {
 					password: hash,
 				});
 
-				const token = jwt.sign({ email }, process.env.JWT_SECRET);
+				const token = jwt.sign({ email }, process.env.JWT_SECRET,{
+					expiresIn: '1hr'
+				});
 				res.cookie('token', token);
 
 				await createdUser.save();
@@ -56,7 +58,9 @@ const loginHandler = async (req, res) => {
 			return res.status(400).send('Invalid Password');
 		}
 
-		const token = jwt.sign({email: loginUser.email}, process.env.JWT_SECRET)
+		const token = jwt.sign({email: loginUser.email}, process.env.JWT_SECRET, {
+			expiresIn: '1hr'
+		})
 		res.cookie("token", token)
 		
 		return res.redirect('/car/bookcar')

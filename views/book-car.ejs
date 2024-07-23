@@ -25,31 +25,38 @@
 					placeholder="Search Your Gari"
 				/>
 				<button
-					class="button bg-white pl-4 pr-4 rounded-tr-md rounded-br-md font-bold text-zinc-900"
+					class="button bg-slate-500 pl-4 pr-4 rounded-tr-md rounded-br-md font-bold text-white"
 				>
 					Search
 				</button>
 			</div>
-			<div class="mt-12 w-10/12 flex gap-x-5">
-				<div class="bg-white w-72 rounded-lg h-96 static flex flex-col">
+			<div class="mt-12 w-10/12 flex justify-between gap-14">
+				<!-- Category Section -->
+				<div
+					class="bg-white w-64 h-96 rounded-lg flex flex-col left "
+				>
 					<h1
 						class="text-center text-zinc-900 font-bold pt-3 text-lg"
 					>
-						Category
+						<i class="fa fa-filter"></i> Category
 					</h1>
-
 					<div
 						class="items-start pl-4 font-bold mt-4 flex flex-col justify-start gap-y-3 text-left text-zinc-900"
 					>
-						<button class="p-1">Suzuki</button>
-						<button class="p-1">Corolla</button>
-						<button class="p-1">Honda</button>
-						<button class="p-1">Kia</button>
+						<button class="p-1 filter-make" data-make="All">
+							All
+						</button>
+						<!-- Add "All" button -->
+						<% makes.forEach(make => { %>
+						<button class="p-1 filter-make" data-make="<%= make.name %>">
+							<%= make.name %> (<%= make.count %> cars)
+						</button>
+						<% }) %>
 					</div>
 				</div>
 
-				<div class="rounded-lg">
-					<div class="flex gap-12 flex-wrap">
+				<div class="rounded-lg right">
+					<div class="flex gap-10 flex-wrap">
 						<%cars.forEach( car=> {%>
 						<div
 							class="card bg-slate-600 w-auto rounded-lg cursor-pointer flex flex-col"
@@ -73,13 +80,20 @@
 									</p>
 								</div>
 
+								<!-- Flash Message for success add or remove -->
+
+								<div
+									id="flash-message"
+									class="fixed top-0 left-1/2 transform -translate-x-1/2 p-4 bg-green-500 text-white rounded-lg shadow-lg hidden"
+								></div>
+
 								<button
 									class="add-to-favorites text-white"
 									data-car-id="<%= car._id %>"
 									data-in-favorites="<%= car.isFavorite %>"
 								>
 									<i
-										class="fa fa-plus-circle items-end text-3xl <%= car.isFavorite ? 'text-green-500' : 'text-white' %>"
+										class="fa fa-heart items-end text-3xl <%= car.isFavorite ? 'text-green-500' : 'text-white' %>"
 									></i>
 								</button>
 							</div>
@@ -91,6 +105,7 @@
 			<%- include('partials/footer')%>
 		</div>
 
+		<script src="../javascripts/filterCars.js"></script>
 		<script src="../javascripts/favourite.js"></script>
 	</body>
 </html>

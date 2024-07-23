@@ -3,8 +3,6 @@ const mongoose = require('mongoose');
 const dbURI = 'mongodb://localhost:27017/garikar'; 
 
 mongoose.connect(dbURI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
   serverSelectionTimeoutMS: 5000, // 5 seconds
   socketTimeoutMS: 45000 // 45 seconds
 })

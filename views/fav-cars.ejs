@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>GariKar</title>
+		<link href="/stylesheets/style.css" rel="stylesheet" />
+		<script src="https://cdn.tailwindcss.com"></script>
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+			integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+			crossorigin="anonymous"
+			referrerpolicy="no-referrer"
+		/>
+		<style>
+			@font-face {
+				font-family: 'spacegrotesk';
+				src: url('../fonts/Binoma\ Trial-Bold.ttf');
+			}
+
+			@font-face {
+				font-family: 'unique';
+				src: url('../fonts/Binoma\ Trial-Regular.ttf');
+			}
+			h1 {
+				font-family: 'unique';
+			}
+			span {
+				font-family: 'spacegrotesk';
+			}
+		</style>
+	</head>
+	
+	<body class="bg-zinc-900 text-white ">
+		<div class="flex justify-center items-center flex-col " >
+			<%- include('partials/header')%>
+
+			<h1 class="text-5xl text-center text-white mt-10">Your Favorite Cars</h1>
+			<div class="mt-12 w-10/12 flex gap-x-5">
+				
+
+				<div class="rounded-lg">
+					<div class="flex gap-12 flex-wrap">
+						<%if(user.favoriteCars.length > 0){%>
+						<%user.favoriteCars.forEach(car => {%>
+                            <div
+							class="card bg-slate-600 w-auto rounded-lg cursor-pointer flex flex-col"
+						>
+							<div class="w-60 h-52 rounded-tl-lg rounded-tr-lg">
+								<img
+									class="object-cover h-52 w-60 rounded-tl-lg rounded-tr-lg"
+									src="<%=car.image%>"
+									alt="<%=car.make%> <%=car.model%>"
+								/>
+							</div>
+							<div
+								class="pl-4 pr-5 pt-2 pb-2 flex items-center justify-between"
+							>
+								<div class="">
+									<p class="text-white font-semibold">
+										<%=car.make%> <%=car.model%>
+									</p>
+									<p class="text-white font-semibold">
+										<%=car.pricePerDay%> PKR
+									</p>
+								</div>
+
+								<!-- Flash Message for success add or remove -->
+
+								<div id="flash-message" class="fixed top-0 left-1/2 transform -translate-x-1/2 p-4 bg-green-500 text-white rounded-lg shadow-lg hidden"></div>
+
+
+
+								<button
+									class="add-to-favorites text-white"
+									data-car-id="<%= car._id %>"
+									data-in-favorites="<%= car.isFavorite %>"
+								>
+									<i
+										class="fa fa-minus-circle items-end text-3xl <%= car.isFavorite ? 'text-green-500' : 'text-white' %>"
+									></i>
+								</button>
+							</div>
+						</div>
+                        <%})%>
+						<%} else{%>
+							<h1>No Favourite Cars Yet</h1>
+							<%}%>
+					</div>
+				</div>
+			</div>
+			<!-- <%- include('partials/footer')%> -->
+		</div>
+
+		<script src="../javascripts/favourite.js"></script>
+	</body>
+</html>

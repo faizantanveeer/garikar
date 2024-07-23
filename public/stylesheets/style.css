@@ -584,3 +584,12 @@ video {
     background-position: 0% 50%;
   }
 }
+
+
+.left{
+  width: 40%;
+}
+
+.right{
+  width: 80%;
+}
