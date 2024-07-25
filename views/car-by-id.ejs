@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>GariKar</title>
+		<link href="/stylesheets/style.css" rel="stylesheet" />
+		<script src="https://cdn.tailwindcss.com"></script>
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+			integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+			crossorigin="anonymous"
+			referrerpolicy="no-referrer"
+		/>
+		<style>
+			.right{
+
+			}
+
+			
+			.left{
+			}
+		</style>
+	</head>
+
+	<body class="bg-zinc-900 text-white">
+		<div class="flex justify-center items-center flex-col">
+			<%- include('partials/header')%>
+
+			<h1 class="maintxt text-5xl text-center text-white mt-10">
+				<%= car.make%> <%= car.model%>
+			</h1>
+
+			<div class="mt-12 w-10/12 flex justify-center gap-x-5 ">
+				<div class="rounded-lg 	">
+					<div class="flex gap-32 ">
+						<div
+							class=" card bg-slate-600 rounded-lg cursor-pointer "
+						>
+							<div class="w-96 h-80 rounded-tl-lg rounded-tr-lg">
+								<img
+									class="left object-cover w-96 h-80 rounded-tl-lg rounded-tr-lg"
+									src="<%=car.image%>"
+									alt="<%=car.make%> <%=car.model%>"
+								/>
+							</div>
+							<div
+								class="pl-4 pr-5 pt-2 pb-2 flex items-center justify-between"
+							>
+								<div class="">
+									<p class="text-white font-semibold">
+										<%=car.make%> <%=car.model%>
+									</p>
+									
+								</div>
+							</div>
+						</div>
+
+						<div class="right flex flex-col justify-between">
+							<div>
+							<p class="font-semibold text-2xl">Car: <%=car.make%> <%=car.model%></p>
+							<p class="font-semibold text-2xl">Year: <%=car.year%></p>
+							<p class="font-semibold text-2xl">Color: <%=car.color%></p>
+							<p class="font-semibold text-2xl">Specs:</p>
+							<p class="font-semibold text-2xl">&nbsp;&nbsp;&nbsp;&nbsp; Engine: <%=car.specs.engine%></p>
+							<p class="font-semibold text-2xl">&nbsp;&nbsp;&nbsp;&nbsp; Transmission: <%=car.specs.transmission%></p>
+							<p class="font-semibold text-2xl"> &nbsp;&nbsp;&nbsp;&nbsp; Mileage: <%=car.specs.mileage%></p>
+							<p class="font-semibold text-2xl">&nbsp;&nbsp;&nbsp;&nbsp; FuelType: <%=car.specs.fuelType%></p>
+							</div>
+
+							<div class="mt-9 flex gap-6 items-center">
+								<h1 class="text-3xl font-semibold">Price: <span class="text-4xl"><%=car.pricePerDay%>/-</span></h1>
+								<button class="bg-green-600 font-medium text-3xl rounded-md px-5 py-2 hover:bg-green-700">Rent Now</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- <%- include('partials/footer')%> -->
+		</div>
+	</body>
+</html>
