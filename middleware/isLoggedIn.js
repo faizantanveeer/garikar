@@ -14,7 +14,7 @@ const isLoggedIn = (req, res, next) => {
         next(); 
     } catch (err) {
         req.user = null
-        res.status(400).send('Invalid Token');
+        res.redirect('/login');
     }
 };
 

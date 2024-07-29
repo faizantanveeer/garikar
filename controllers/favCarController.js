@@ -1,6 +1,5 @@
 const jwt = require('jsonwebtoken');
 const Car = require('../models/cars-model');
-const { getUserFromToken } = require('../utils/getUser');
 const User = require('../models/user-model');
 
 const addToFavorite = async (req, res) => {

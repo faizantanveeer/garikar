@@ -4,7 +4,8 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const loginRouter = (req, res) => {
-	res.render('login');
+	const flashMessage = req.flash('message')
+	res.render('login', {loginStatus: flashMessage});
 };
 
 const signUpRouter = (req, res) => {
@@ -50,18 +51,21 @@ const loginHandler = async (req, res) => {
 		const loginUser = await userModel.findOne({ email });
 
 		if (!loginUser) {
-			return res.status(404).send('Something went wrong');
+			req.flash('message', 'Incorrect Email/Password');
+			return res.redirect('/login');
 		}
 
 		const isMatch = await bcrypt.compare(password, loginUser.password);
 		if (!isMatch) {
-			return res.status(400).send('Invalid Password');
+			req.flash('message', 'Incorrect Email/Password')
+			return res.redirect('/login');
 		}
 
 		const token = jwt.sign({email: loginUser.email}, process.env.JWT_SECRET, {
 			expiresIn: '1hr'
 		})
 		res.cookie("token", token)
+
 		
 		return res.redirect('/car/bookcar')
 	} catch (err) {

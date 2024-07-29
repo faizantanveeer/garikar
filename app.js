@@ -1,7 +1,10 @@
 var express = require('express');
 var path = require('path');
+const session = require('express-session'); 
+const flash = require('connect-flash'); 
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+
 require('dotenv').config();
 const setUserGlobal = require('./middleware/setUserGlobal')
 
@@ -18,6 +21,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(session({ 
+    secret:'geeksforgeeks', 
+    saveUninitialized: true, 
+    resave: true
+})); 
+  
+app.use(flash()); 
 
 app.use(setUserGlobal)
 

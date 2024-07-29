@@ -1,16 +1,10 @@
 const jwt = require('jsonwebtoken');
 const Car = require('../models/cars-model');
-const { getUserFromToken } = require('../utils/getUser');
 const User = require('../models/user-model');
 
 const listCar = async (req, res) => {
 	try {
-		const token = req.cookies.token;
-		if (!token) {
-			return res.status(401).json({ message: 'No token provided' });
-		}
-
-		let user = await getUserFromToken(token);
+		const user = await User.findOne({ email: req.user.email });
 
 		if (!user) {
 			return res.status(404).json({ message: 'User not found' });
@@ -65,6 +59,9 @@ const getAllCars = async (req, res) => {
 		const make = req.query.make;
 		let cars;
 
+		const carname = req.query.car;
+		// console.log(carname);
+
 		// Log received make parameter for debugging
 
 		if (make) {
@@ -85,7 +82,11 @@ const getAllCars = async (req, res) => {
 			count: make.count,
 		}));
 
-		res.render('book-car', { cars, makes });
+		if (carname === undefined) {
+			return res.render('book-car', { cars, makes, flag: false });
+		} else {
+			return res.render('book-car', { cars, makes, carname, flag: true });
+		}
 	} catch (err) {
 		console.error(err);
 		res.status(500).json({ message: 'Server error while fetching cars' });
@@ -93,36 +94,73 @@ const getAllCars = async (req, res) => {
 };
 
 const getCarById = async (req, res) => {
-    try {
-
-		const token = req.cookies.token;
-		if (!token) {
-			return res.status(401).json({ message: 'No token provided' });
-		}
-
-		let user = await getUserFromToken(token);
+	try {
+		const user = await User.findOne({ email: req.user.email });
 
 		if (!user) {
 			return res.status(404).json({ message: 'User not found' });
 		}
 
-		
-        const id = req.params.id;
+		const id = req.params.id;
 
-		console.log(id)
-        const car = await Car.findOne({ _id:id });
-        if (!car) {
-            return res.status(404).json('Car is not Present');
-        }
+		// console.log(id)
+		const car = await Car.findOne({ _id: id });
+		if (!car) {
+			return res.status(404).json('Car is not Present');
+		}
 
-        console.log(car);
+		// console.log(car);
+		const alreadyBooked = user.bookings.some(
+			(booking) => booking._id.toString() === car._id.toString()
+		);
 
-        res.render('car-by-id', { car, user: req.user || null });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ message: 'Server error while fetching the car' });
-    }
+		const alreadyOwner = car.owner.toString() === user._id.toString();
+
+		// console.log(alreadyOwner	)
+
+		res.render('car-by-id', {
+			car,
+			user: req.user || null,
+			booked: alreadyBooked,
+			owned: alreadyOwner,
+		});
+	} catch (err) {
+		console.error(err);
+		res.status(500).json({
+			message: 'Server error while fetching the car',
+		});
+	}
 };
 
+const bookCar = async (req, res) => {
+	try {
+		const user = await User.findOne({ email: req.user.email });
+		if (!user) {
+			return res.status(404).json({ message: 'User not found' });
+		}
+		const id = req.params.id;
 
-module.exports = { listCar, getAllCars, getCarById};
+		const car = await Car.findOne({ _id: id });
+		if (!car) {
+			return res.status(201).send('Car Not Present');
+		}
+
+		const carOwner = car.owner.toString() === user._id.toString();
+		const alreadyBooked = user.bookings.some(
+			(booking) => booking._id.toString() === car._id.toString()
+		);
+
+		if (carOwner || alreadyBooked) {
+			return res.redirect(`/car/getcar/${car._id}`);
+		} else {
+			await user.bookings.push(car._id);
+			await user.save();
+			const carname = encodeURIComponent(`${car.make} ${car.model}`);
+			return res.redirect('/car/bookcar/?car=' + carname);
+		}
+	} catch (error) {
+		res.status(500).send('Something Went Wrong');
+	}
+};
+
+module.exports = { listCar, getAllCars, getCarById, bookCar };

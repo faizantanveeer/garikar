@@ -23,17 +23,43 @@
 		</style>
 	</head>
 	<body>
-		<div class="flex items-center flex-col bg-zinc-900  text-white h-screen">
+		<div class="flex items-center flex-col bg-zinc-900 text-white h-screen">
 			<%- include('partials/header')%>
 
-			<div class="herodiv mt-32 flex flex-col justify-center items-center  w-10/12">
-				<h1 class="text-5xl text-center text-white">
-					Login
-				</h1>
-				<form action="/auth/login" method="post" class="flex flex-col gap-y-8 mt-10 w-3/5 text-zinc-900">
-					<input class="rounded-lg pt-2 pb-2 pr-4 pl-4 outline-none border-2 border-zinc-400	" name="email" type="email" placeholder="Enter Email">
-					<input class="rounded-lg pt-2 pb-2 pr-4 pl-4 outline-none border-2 border-zinc-400	" name="password" type="password" placeholder="Enter Password">
-					<input class="rounded-lg pt-2 pb-2 pr-4 pl-4 bg-slate-700 font-bold	text-white cursor-pointer hover:bg-slate-400 border-2 border-zinc-800" type="submit" value="Login">
+			<% if(loginStatus.length > 0){%>
+			<div
+				id="flash-message"
+				class="fixed top-0 left-1/2 transform -translate-x-1/2 py-2 px-3 text-white rounded-lg shadow-lg bg-red-500"
+			><%=loginStatus%></div>
+
+			<%}%>
+
+			<div
+				class="herodiv mt-32 flex flex-col justify-center items-center w-10/12"
+			>
+				<h1 class="text-5xl text-center text-white">Login</h1>
+				<form
+					action="/auth/login"
+					method="post"
+					class="flex flex-col gap-y-8 mt-10 w-3/5 text-zinc-900"
+				>
+					<input
+						class="rounded-lg pt-2 pb-2 pr-4 pl-4 outline-none border-2 border-zinc-400"
+						name="email"
+						type="email"
+						placeholder="Enter Email"
+					/>
+					<input
+						class="rounded-lg pt-2 pb-2 pr-4 pl-4 outline-none border-2 border-zinc-400"
+						name="password"
+						type="password"
+						placeholder="Enter Password"
+					/>
+					<input
+						class="rounded-lg pt-2 pb-2 pr-4 pl-4 bg-slate-700 font-bold text-white cursor-pointer hover:bg-slate-400 border-2 border-zinc-800"
+						type="submit"
+						value="Login"
+					/>
 				</form>
 			</div>
 
