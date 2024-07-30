@@ -4,10 +4,12 @@ const db = require('../db/db')
 
 // Define the schema for a user
 const UserSchema = new Schema({
-	name: { type: String, required: true, unique: true },
+	name: { type: String, required: true },
 	email: { type: String, required: true, unique: true },
 	password: { type: String, required: true },
+	image: {type: String},
 	favoriteCars: [{ type: Schema.Types.ObjectId, ref: 'Car' }],
+
 	bookings: [
 		{
 			car: { type: Schema.Types.ObjectId, ref: 'Car' },

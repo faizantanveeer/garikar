@@ -7,6 +7,7 @@ var logger = require('morgan');
 
 require('dotenv').config();
 const setUserGlobal = require('./middleware/setUserGlobal')
+const attachUserData = require('./middleware/attachUser')
 
 var allRoutes = require('./routes/index');
 
@@ -14,6 +15,7 @@ var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.set('view engine', 'ejs');
 
 app.use(logger('dev'));
@@ -23,7 +25,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(session({ 
-    secret:'geeksforgeeks', 
+    secret:process.env.SESSION_SECRET, 
     saveUninitialized: true, 
     resave: true
 })); 
@@ -31,6 +33,7 @@ app.use(session({
 app.use(flash()); 
 
 app.use(setUserGlobal)
+app.use(attachUserData)
 
 app.use('/', allRoutes);
 
