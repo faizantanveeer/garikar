@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const Car = require('../models/cars-model');
 const User = require('../models/user-model');
+const cloudinary = require('../config/cloudinary');
 
 const listCar = async (req, res) => {
 	try {
@@ -23,13 +24,33 @@ const listCar = async (req, res) => {
 			pricePerDay,
 		} = req.body;
 
+		let imageUrl = image;
+
+		const fileBuffer = req.file.buffer;
+
+		const uploadResult = await new Promise((resolve, reject) => {
+			cloudinary.uploader
+				.upload_stream({ folder: 'uploads' }, (error, result) => {
+					if (error) {
+						reject('Cloudinary upload failed.');
+					} else {
+						resolve(result.secure_url);
+					}
+				})
+				.end(fileBuffer);
+		});
+
+		imageUrl = uploadResult;
+
+		console.log(imageUrl);
+
 		const newCar = new Car({
 			make,
 			model,
 			year,
 			color,
 			pricePerDay,
-			image,
+			image: imageUrl,
 			specs: {
 				engine,
 				transmission,
@@ -90,6 +111,24 @@ const getAllCars = async (req, res) => {
 	} catch (err) {
 		console.error(err);
 		res.status(500).json({ message: 'Server error while fetching cars' });
+	}
+};
+
+const searchCar = async (req, res) => {
+	try {
+		const query = req.query.q;
+		const cars = await Car.find({
+			$or: [
+				{ make: new RegExp(query, 'i') },
+				{ model: new RegExp(query, 'i') },
+			],
+		});
+
+		console.log(query)
+		console.log(cars)
+		res.json(cars);
+	} catch (err) {
+		res.status(500).json({ error: 'Internal server error' });
 	}
 };
 
@@ -163,4 +202,4 @@ const bookCar = async (req, res) => {
 	}
 };
 
-module.exports = { listCar, getAllCars, getCarById, bookCar };
+module.exports = { listCar, getAllCars, getCarById, bookCar, searchCar };
