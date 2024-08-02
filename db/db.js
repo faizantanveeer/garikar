@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const dbURI = 'mongodb://localhost:27017/garikar'; 
+const dbURI = process.env.MONGODB_CONNECT_URI; 
 
 mongoose.connect(dbURI, {
   serverSelectionTimeoutMS: 5000, // 5 seconds

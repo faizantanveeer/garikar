@@ -1,13 +1,13 @@
 var express = require('express');
 var path = require('path');
-const session = require('express-session'); 
-const flash = require('connect-flash'); 
+const session = require('express-session');
+const flash = require('connect-flash');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 require('dotenv').config();
-const setUserGlobal = require('./middleware/setUserGlobal')
-const attachUserData = require('./middleware/attachUser')
+const setUserGlobal = require('./middleware/setUserGlobal');
+const attachUserData = require('./middleware/attachUser');
 
 var allRoutes = require('./routes/index');
 
@@ -24,23 +24,31 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(session({ 
-    secret:process.env.SESSION_SECRET, 
-    saveUninitialized: true, 
-    resave: true
-})); 
-  
-app.use(flash()); 
+app.use(
+	session({
+		secret: process.env.SESSION_SECRET,
+		saveUninitialized: true,
+		resave: true,
+		cookie: { secure: process.env.NODE_ENV === 'production' },
+	})
+);
 
-app.use(setUserGlobal)
-app.use(attachUserData)
+app.use(flash());
+
+app.use((req, res, next) => {
+    console.log(`Running in ${process.env.NODE_ENV} mode`);
+    next();
+});
+
+app.use(setUserGlobal);
+app.use(attachUserData);
 
 app.use('/', allRoutes);
 
-// catch 404 and forward to error handler
-// app.use(function(req, res, next) {
-//   next(createError(404));
-// });
+app.use(function(req, res, next) {
+    next(createError(404));
+});
+
 
 // error handler
 app.use(function (err, req, res, next) {
