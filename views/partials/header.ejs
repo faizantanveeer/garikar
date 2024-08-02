@@ -1,77 +1,81 @@
-<nav class="flex justify-between w-10/12 h-10 items-center mt-5">
-	<a href="/" class="font-bold text-3xl">GariKar</a>
-	<ul class="flex gap-6 items-center">
-		<li><a href="/" class="font-semibold">Home</a></li>
-		<li><a href="/car/bookcar" class="font-semibold">Book Cars</a></li>
-		<li>
-			<a href="/fav/getfavcar" class="font-semibold">Favourite</a>
-		</li>
+<nav class="w-full bg-zinc-800 font-semibold h-auto">
+    <div class="flex justify-between items-center p-5 max-w-screen-lg mx-auto">
+        <a href="/" class="text-white text-3xl font-bold">GariKar</a>
+        <button id="menuButton" class="block md:hidden focus:outline-none">
+            <!-- Hamburger icon -->
+            <svg
+                class="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+            >
+                <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M4 6h16M4 12h16m-7 6h7"
+                ></path>
+            </svg>
+        </button>
+        <ul
+            id="navLinks"
+            class="hidden md:flex md:items-center md:gap-3 flex-col md:flex-row mt-8 md:mt-0 px-5 md:px-0 py-5 md:py-0 bg-white md:bg-transparent rounded-lg md:rounded-none absolute top-16 left-0 right-0 md:static z-50"
+        >
+            <li><a href="/" class="block text-gray-800 md:text-white hover:bg-gray-200 md:hover:bg-transparent px-4 py-2 rounded">Home</a></li>
+            <li><a href="/car/bookcar" class="block text-gray-800 md:text-white hover:bg-gray-200 md:hover:bg-transparent px-4 py-2 rounded">Book Cars</a></li>
+            <li><a href="/fav/getfavcar" class="block text-gray-800 md:text-white hover:bg-gray-200 md:hover:bg-transparent px-4 py-2 rounded">Favourite</a></li>
 
-		<%if (user) {%>
-		<li>
-	
-			<div class="relative font-semibold">
-				<button id="profileButton" class="focus:outline-none">
-					<%if(!userData.image){%>
-					<img
-					src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcToiRnzzyrDtkmRzlAvPPbh77E-Mvsk3brlxQ&s"
-					alt="Profile Image"
-						class="border-3 border-yellow-500 w-9 h-9 object-cover rounded-full aspect-square"
-					/>
-					<%}else{%>
-					<img
-					src="<%= userData.image %>"
-					alt="Profile Image"
-					class="border-3 border-yellow-500 w-9 h-9 object-cover rounded-full aspect-square"
-					/>
-
-					<%}%>
-				</button>
-	
-				<div
-					id="profileDropdown"
-					class="hidden absolute -right-20 mt-2 w-48 bg-white rounded-md shadow-lg py-0"
-				>
-					<a
-						href="/profile"
-						class="block px-4 py-2 text-gray-800 hover:bg-gray-200 rounded-md"
-						>Profile</a
-					>
-					<a
-						href="/car/listcar"
-						class="block px-4 py-2 text-gray-800 hover:bg-gray-200 rounded-md"
-						>List New Cars</a
-					>
-
-					<a
-						href="/auth/logout"
-						class="block px-4 py-2 text-gray-800 hover:bg-gray-200 rounded-md"
-						>Logout</a
-					>
-				</div>
-			</div>
-			<%} else {%>
-		</li>
-
-		<li><a href="/login" class="font-semibold">Login</a></li>
-		<li><a href="/signup" class="font-semibold">SignUp</a></li>
-		<%}%>
-	</ul>
+            <% if (user) { %>
+            <li>
+                <div class="relative">
+                    <button id="profileButton" class="text-gray-800 md:text-white focus:outline-none">
+                        <% if (!userData.image) { %>
+                        <img
+                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcToiRnzzyrDtkmRzlAvPPbh77E-Mvsk3brlxQ&s"
+                            alt="Profile Image"
+                            class="border-3 border-yellow-500 w-9 h-9 object-cover rounded-full"
+                        />
+                        <% } else { %>
+                        <img
+                            src="<%= userData.image %>"
+                            alt="Profile Image"
+                            class="border-3 border-yellow-500 w-9 h-9 object-cover rounded-full"
+                        />
+                        <% } %>
+                    </button>
+                    <div
+                        id="profileDropdown"
+                        class="hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-0"
+                    >
+                        <a href="/profile" class="block px-4 py-2 text-gray-800 hover:bg-gray-200 rounded-md">Profile</a>
+                        <a href="/car/listcar" class="block px-4 py-2 text-gray-800 hover:bg-gray-200 rounded-md">List New Cars</a>
+                        <a href="/auth/logout" class="block px-4 py-2 text-gray-800 hover:bg-gray-200 rounded-md">Logout</a>
+                    </div>
+                </div>
+            </li>
+            <% } else { %>
+            <li><a href="/login" class="block text-gray-800 md:text-white hover:bg-gray-200 md:hover:bg-transparent px-4 py-2 rounded">Login</a></li>
+            <li><a href="/signup" class="block text-gray-800 md:text-white hover:bg-gray-200 md:hover:bg-transparent px-4 py-2 rounded">SignUp</a></li>
+            <% } %>
+        </ul>
+    </div>
 </nav>
 
 <script>
-	document
-		.getElementById('profileButton')
-		.addEventListener('click', function () {
-			var dropdown = document.getElementById('profileDropdown');
-			dropdown.classList.toggle('hidden');
-		});
+    document.getElementById('menuButton').addEventListener('click', function() {
+        const navLinks = document.getElementById('navLinks');
+        const mobileMenu = document.getElementById('mobileMenu');
+        navLinks.classList.toggle('hidden');
+        mobileMenu.classList.toggle('hidden');
+    });
 
-	window.addEventListener('click', function (e) {
-		var profileButton = document.getElementById('profileButton');
-		var dropdown = document.getElementById('profileDropdown');
-		if (!profileButton.contains(e.target)) {
-			dropdown.classList.add('hidden');
-		}
-	});
+    document.getElementById('profileButton').addEventListener('click', function() {
+        const profileDropdown = document.getElementById('profileDropdown');
+        profileDropdown.classList.toggle('hidden');
+    });
 </script>
+
+
+
+

@@ -13,40 +13,38 @@
 		/>
 	</head>
 	<body class="bg-zinc-900 text-white">
-		<div class="flex justify-center items-center flex-col">
+		<div class="flex flex-col items-center">
 			<%- include('partials/header')%>
 
 			<div
-				class="search h-9 flex gap-0 rounded-md hover:drop-shadow-md active:outline-8 mt-4"
+				class="search h-9 flex gap-0 rounded-md hover:drop-shadow-md active:outline-8 mt-9"
 			>
+				<button
+					id="searchButton"
+					class="button bg-slate-500 pl-4 pr-4 rounded-tl-md rounded-bl-md font-bold text-white"
+					onclick=""
+				>
+					<i class="fa fa-search"></i>
+				</button>
 				<input
 					id="searchInput"
-					class="pl-4 pr-4 pt-2 pb-2 rounded-tl-md rounded-bl-md w-96 border-2 text-zinc-900"
+					class="pl-4 pr-4 pt-2 pb-2 rounded-tr-md rounded-br-md w-full sm:w-96 border-2 text-zinc-900"
 					type="text"
 					placeholder="Search Your Gari"
 					oninput="searchCars()"
 				/>
-				<button
-					id="searchButton"
-					class="button bg-slate-500 pl-4 pr-4 rounded-tr-md rounded-br-md font-bold text-white"
-					onclick=""
-				>
-					Search
-				</button>
 			</div>
 
 			<div id="searchText" class="text-semibold mt-5 mb-3"></div>
 			<div
 				id="searchResults"
-				class="mt-12 w-10/12 flex gap-10 flex-wrap"
+				class="mt-8 w-full sm:w-10/12 flex gap-4 flex-wrap justify-center"
 			></div>
 
-			<div class="mt-12 w-10/12 flex justify-between gap-14">
-				<!-- Category Section -->
-
+			<div class=" border-2 w-10/12 mt-6 flex flex-col lg:flex-row justify-between gap-9">
 				<!-- Category Section -->
 				<div
-					class="text-white w-64 bg-zinc-800 rounded-lg flex flex-col left pb-3"
+					class="text-white w-full lg:max-w-xs bg-zinc-800 rounded-lg flex flex-col pb-3"
 				>
 					<h1 class="text-center font-bold pt-3 text-lg">
 						<i class="fa fa-filter"></i> Category
@@ -68,15 +66,20 @@
 					</div>
 				</div>
 
-				<div class="rounded-lg right">
-					<div id="carList" class="flex gap-10 flex-wrap">
-						<%cars.forEach( car=> {%>
+				<div class="flex-grow">
+					<div
+						id="carList"
+						class="flex gap-4 flex-wrap justify-center lg:justify-start"
+					>
+						<% cars.forEach(car => { %>
 						<div
-							class="card bg-slate-600 w-auto rounded-lg cursor-pointer flex flex-col"
+							class="card bg-slate-600 w-full sm:w-auto rounded-lg cursor-pointer flex flex-col"
 						>
-							<div class="w-60 h-52 rounded-tl-lg rounded-tr-lg">
+							<div
+								class="w-full h-52 sm:w-60 sm:h-52 rounded-tl-lg rounded-tr-lg"
+							>
 								<img
-									class="object-cover h-52 w-60 rounded-tl-lg rounded-tr-lg"
+									class="object-cover w-full h-full sm:w-60 sm:h-52 rounded-tl-lg rounded-tr-lg"
 									onclick="window.location.href = '/car/getcar/<%=car._id%>'"
 									src="<%=car.image%>"
 									alt="<%=car.make%> <%=car.model%>"
@@ -86,7 +89,6 @@
 								class="pl-4 pr-5 pt-2 pb-2 flex items-center justify-between"
 							>
 								<div
-									class=""
 									onclick="window.location.href = '/car/getcar/<%=car._id%>'"
 								>
 									<p class="text-white font-semibold">
@@ -96,28 +98,35 @@
 										<%=car.pricePerDay%> PKR
 									</p>
 								</div>
+								<!-- Flash Message for success add or remove -->
+								<div
+									id="flash-message"
+									class="fixed top-0 left-1/2 transform -translate-x-1/2 py-2 px-3 text-white rounded-lg shadow-lg hidden"
+								></div>
+
 								<button
 									class="add-to-favorites text-white"
 									data-car-id="<%= car._id %>"
 									data-in-favorites="<%= car.isFavorite %>"
 								>
 									<i
-										class="fa fa-heart items-end text-3xl <%= car.isFavorite ? 'text-green-500' : 'text-white' %>"
+										class="fa fa-heart text-3xl <%= car.isFavorite ? 'text-green-500' : 'text-white' %>"
 									></i>
 								</button>
 							</div>
 						</div>
-						<%})%> <%if(flag){%>
+						<% }) %> <% if(flag){ %>
 						<div
 							id="car-name-flash"
 							class="fixed top-0 left-1/2 transform -translate-x-1/2 py-2 px-3 text-white rounded-lg shadow-lg bg-green-500"
 						>
 							<p>You rented <%=carname%> successfully!</p>
 						</div>
-						<%}%>
+						<% } %>
 					</div>
 				</div>
 			</div>
+
 			<%- include('partials/footer')%>
 		</div>
 

@@ -58,6 +58,6 @@ const getAllFavCars = async (req, res) => {
 	}
 
 
-	res.render('fav-cars', { user: user });
+	res.render('fav-cars', { user: user, userData: user });
 };
 module.exports = { addToFavorite, getAllFavCars };

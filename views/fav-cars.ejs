@@ -1,97 +1,79 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>GariKar</title>
-		<link href="/stylesheets/style.css" rel="stylesheet" />
-		<script src="https://cdn.tailwindcss.com"></script>
-		<link
-			rel="stylesheet"
-			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
-			integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
-			crossorigin="anonymous"
-			referrerpolicy="no-referrer"
-		/>
-		<style>
-			@font-face {
-				font-family: 'spacegrotesk';
-				src: url('../fonts/Binoma\ Trial-Bold.ttf');
-			}
+<head>
+    <title>GariKar</title>
+    <link href="/stylesheets/style.css" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer"
+    />
+    <style>
+        @font-face {
+            font-family: 'spacegrotesk';
+            src: url('../fonts/Binoma\ Trial-Bold.ttf');
+        }
 
-			@font-face {
-				font-family: 'unique';
-				src: url('../fonts/Binoma\ Trial-Regular.ttf');
-			}
-			h1 {
-				font-family: 'unique';
-			}
-			span {
-				font-family: 'spacegrotesk';
-			}
-		</style>
-	</head>
-	
-	<body class="bg-zinc-900 text-white ">
-		<div class="flex justify-center items-center flex-col " >
-			<%- include('partials/header')%>
+        @font-face {
+            font-family: 'unique';
+            src: url('../fonts/Binoma\ Trial-Regular.ttf');
+        }
+        h1 {
+            font-family: 'unique';
+        }
+        span {
+            font-family: 'spacegrotesk';
+        }
+    </style>
+</head>
 
-			<h1 class="text-5xl text-center text-white mt-10">Your Favorite Cars</h1>
-			<div class="mt-12 w-10/12 flex gap-x-5">
-				
+<body class="bg-zinc-900 text-white">
+    <div class="flex flex-col items-center">
+        <%- include('partials/header')%>
 
-				<div class="rounded-lg">
-					<div class="flex gap-12 flex-wrap">
-						<%if(user.favoriteCars.length > 0){%>
-						<%user.favoriteCars.forEach(car => {%>
-                            <div
-							class="card bg-slate-600 w-auto rounded-lg cursor-pointer flex flex-col"
-						>
-							<div class="w-60 h-52 rounded-tl-lg rounded-tr-lg">
-								<img
-									class="object-cover h-52 w-60 rounded-tl-lg rounded-tr-lg"
-									onclick="window.location.href = '/car/bookcar/<%=car._id%>'"
-									src="<%=car.image%>"
-									alt="<%=car.make%> <%=car.model%>"
-								/>
-							</div>
-							<div
-								class="pl-4 pr-5 pt-2 pb-2 flex items-center justify-between"
-							>
-								<div class="" onclick="window.location.href = '/car/bookcar/<%=car._id%>'">
-									<p class="text-white font-semibold">
-										<%=car.make%> <%=car.model%>
-									</p>
-									<p class="text-white font-semibold">
-										<%=car.pricePerDay%> PKR
-									</p>
-								</div>
+        <h1 class="text-4xl md:text-5xl text-center text-white mt-10 px-4">Your Favorite Cars</h1>
+        <div class="mt-12 w-full max-w-6xl px-4 mx-auto flex flex-wrap gap-5 justify-center">
+            <% if (user.favoriteCars.length > 0) { %>
+                <% user.favoriteCars.forEach(car => { %>
+                    <div class="card bg-slate-600 w-full sm:w-80 md:w-60 lg:w-72 rounded-lg cursor-pointer flex flex-col">
+                        <div class="w-full h-52 rounded-t-lg overflow-hidden">
+                            <img
+                                class="object-cover w-full h-full"
+                                onclick="window.location.href = '/car/bookcar/<%= car._id %>'"
+                                src="<%= car.image %>"
+                                alt="<%= car.make %> <%= car.model %>"
+                            />
+                        </div>
+                        <div class="p-4 flex items-center justify-between">
+                            <div onclick="window.location.href = '/car/bookcar/<%= car._id %>'">
+                                <p class="text-white font-semibold">
+                                    <%= car.make %> <%= car.model %>
+                                </p>
+                                <p class="text-white font-semibold">
+                                    <%= car.pricePerDay %> PKR
+                                </p>
+                            </div>
+                            <button
+                                class="add-to-favorites text-white"
+                                data-car-id="<%= car._id %>"
+                                data-in-favorites="<%= car.isFavorite %>"
+                            >
+                                <i
+                                    class="fa fa-minus-circle text-2xl sm:text-3xl <%= car.isFavorite ? 'text-green-500' : 'text-white' %>"
+                                ></i>
+                            </button>
+                        </div>
+                    </div>
+                <% }) %>
+            <% } else { %>
+                <h1>No Favourite Cars Yet</h1>
+            <% } %>
+        </div>
+    </div>
 
-								<!-- Flash Message for success add or remove -->
-
-								<div id="flash-message" class="fixed top-0 left-1/2 transform -translate-x-1/2 py-2 px-3 bg-green-500 text-white rounded-lg shadow-lg hidden"></div>
-
-
-
-								<button
-									class="add-to-favorites text-white"
-									data-car-id="<%= car._id %>"
-									data-in-favorites="<%= car.isFavorite %>"
-								>
-									<i
-										class="fa fa-minus-circle items-end text-3xl <%= car.isFavorite ? 'text-green-500' : 'text-white' %>"
-									></i>
-								</button>
-							</div>
-						</div>
-                        <%})%>
-						<%} else{%>
-							<h1>No Favourite Cars Yet</h1>
-							<%}%>
-					</div>
-				</div>
-			</div>
-			<!-- <%- include('partials/footer')%> -->
-		</div>
-
-		<script src="../javascripts/favourite.js"></script>
-	</body>
+    <script src="../javascripts/favourite.js"></script>
+</body>
 </html>

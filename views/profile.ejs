@@ -18,11 +18,10 @@
 			type="text/javascript"
 		></script>
 	</head>
-	<body class="bg-zinc-900 text-white min-h-full flex flex-col">
+	<body class="bg-zinc-900 text-white min-h-full flex flex-col ">
 		<div
 			class="flex justify-center items-center flex-col flex-grow font-semibold"
 		>
-		
 			<%- include('partials/header', { userData: userData })%>
 
 			<h1
@@ -62,13 +61,13 @@
 							<img
 								src="<%= userData.image %>"
 								alt="Profile Image"
-								class="border-3 border-yellow-500 w-72 h-52 object-cover rounded-lg aspect-square"
+								class=" border-yellow-500 object-cover rounded-lg aspect-square max-h-52 max-w-42"
 							/>
 							<%}else{%>
 							<img
 								src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcToiRnzzyrDtkmRzlAvPPbh77E-Mvsk3brlxQ&s"
 								alt="Profile Image"
-								class="border-3 border-yellow-500 w-72 h-52 object-cover rounded-lg aspect-square"
+								class=" border-yellow-500 max-h-52 max-w-42 object-cover rounded-lg aspect-square"
 							/>
 							<%}%>
 						</div>
@@ -77,13 +76,13 @@
 							class="flex flex-col gap-6 text-center md:text-right p-4 rounded-lg bg-zinc-700 shadow-md w-full"
 						>
 							<div
-								class="flex flex-col md:flex-row justify-between items-center"
+								class=" flex flex-col md:flex-row justify-between items-center"
 							>
 								<p class="text-lg text-slate-100 mb-2 md:mb-0">
 									Full Name:
 								</p>
 								<span
-									class="ml-4 rounded-md border border-gray-500 px-4 py-2 bg-zinc-800 text-white"
+									class="ml-4 rounded-md lg:w-72 md:w-52 border border-gray-500 px-4 py-2 bg-zinc-800 text-white"
 									><%= userData.name %></span
 								>
 							</div>
@@ -94,7 +93,7 @@
 									Email:
 								</p>
 								<span
-									class="ml-4 rounded-md border border-gray-500 px-4 py-2 bg-zinc-800 text-white"
+									class="ml-4 rounded-md border lg:w-72 md:w-52 border-gray-500 px-4 py-2 bg-zinc-800 text-white"
 									><%= userData.email %></span
 								>
 							</div>
@@ -105,7 +104,7 @@
 									No of owned cars:
 								</p>
 								<span
-									class="ml-4 rounded-md border border-gray-500 w-full md:w-32 px-4 py-2 bg-zinc-800 text-white"
+									class="ml-4 rounded-md border lg:w-72 md:w-52 border-gray-500 px-4 py-2 bg-zinc-800 text-white"
 									><%= userData.ownedCars.length %> Cars</span
 								>
 							</div>

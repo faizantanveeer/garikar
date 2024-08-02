@@ -77,6 +77,12 @@ const listCar = async (req, res) => {
 
 const getAllCars = async (req, res) => {
 	try {
+		const user = await User.findOne({ email: req.user.email });
+
+		if (!user) {
+			return res.status(404).json({ message: 'User not found' });
+		}
+
 		const make = req.query.make;
 		let cars;
 
@@ -97,8 +103,6 @@ const getAllCars = async (req, res) => {
 			{ $sort: { _id: 1 } }, // Optional: Sort by make name
 		]);
 
-	
-
 		// Transform the data to a more usable format for rendering
 		const makes = makesWithCounts.map((make) => ({
 			name: make._id,
@@ -106,9 +110,20 @@ const getAllCars = async (req, res) => {
 		}));
 
 		if (carname === undefined) {
-			return res.render('book-car', { cars, makes, flag: false });
+			return res.render('book-car', {
+				cars,
+				makes,
+				userData: user,
+				flag: false,
+			});
 		} else {
-			return res.render('book-car', { cars, makes, carname, flag: true });
+			return res.render('book-car', {
+				cars,
+				makes,
+				carname,
+				userData: user,
+				flag: true,
+			});
 		}
 	} catch (err) {
 		console.error(err);
@@ -126,7 +141,6 @@ const searchCar = async (req, res) => {
 			],
 		});
 
-		
 		res.json(cars);
 	} catch (err) {
 		res.status(500).json({ error: 'Internal server error' });
