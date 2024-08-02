@@ -28,16 +28,23 @@ app.use(
 	session({
 		secret: process.env.SESSION_SECRET,
 		saveUninitialized: true,
-		resave: true,
-		cookie: { secure: process.env.NODE_ENV === 'production' },
+		resave: false,
+		store: MongoStore.create({
+			mongoUrl: mongoURI,
+			collectionName: 'sessions',
+		}),
+		cookie: {
+			secure: process.env.NODE_ENV === 'production',
+			maxAge: 1000 * 60 * 60 * 24,
+		},
 	})
 );
 
 app.use(flash());
 
 app.use((req, res, next) => {
-    console.log(`Running in ${process.env.NODE_ENV} mode`);
-    next();
+	console.log(`Running in ${process.env.NODE_ENV} mode`);
+	next();
 });
 
 app.use(setUserGlobal);
@@ -45,10 +52,9 @@ app.use(attachUserData);
 
 app.use('/', allRoutes);
 
-app.use(function(req, res, next) {
-    next(createError(404));
+app.use(function (req, res, next) {
+	next(createError(404));
 });
-
 
 // error handler
 app.use(function (err, req, res, next) {
