@@ -4,7 +4,7 @@ const session = require('express-session');
 const flash = require('connect-flash');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
+const MongoStore = require('connect-mongo');
 require('dotenv').config();
 const setUserGlobal = require('./middleware/setUserGlobal');
 const attachUserData = require('./middleware/attachUser');
@@ -30,7 +30,7 @@ app.use(
 		saveUninitialized: true,
 		resave: false,
 		store: MongoStore.create({
-			mongoUrl: mongoURI,
+			mongoUrl: process.env.MONGODB_CONNECT_URI,
 			collectionName: 'sessions',
 		}),
 		cookie: {
