@@ -9,6 +9,8 @@ require('dotenv').config();
 const setUserGlobal = require('./middleware/setUserGlobal');
 const attachUserData = require('./middleware/attachUser');
 
+
+
 var allRoutes = require('./routes/index');
 
 var app = express();
