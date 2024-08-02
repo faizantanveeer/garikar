@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "build:css": "npx tailwindcss -i ./public/stylesheets/style.css -o ./public/stylesheets/style.css --minify",
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "build:css": "tailwindcss build public/stylesheets/style.css -o public/stylesheets/style.css"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
