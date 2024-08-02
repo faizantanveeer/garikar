@@ -97,6 +97,8 @@ const getAllCars = async (req, res) => {
 			{ $sort: { _id: 1 } }, // Optional: Sort by make name
 		]);
 
+	
+
 		// Transform the data to a more usable format for rendering
 		const makes = makesWithCounts.map((make) => ({
 			name: make._id,
@@ -124,8 +126,7 @@ const searchCar = async (req, res) => {
 			],
 		});
 
-		console.log(query)
-		console.log(cars)
+		
 		res.json(cars);
 	} catch (err) {
 		res.status(500).json({ error: 'Internal server error' });

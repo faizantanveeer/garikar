@@ -31,7 +31,7 @@ const signUpHandler = (req, res) => {
 
 				await createdUser.save();
 
-				res.redirect('/signup');
+				res.redirect('/car/bookcar');
 			});
 		});
 	} catch (err) {

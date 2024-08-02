@@ -15,8 +15,8 @@ document.addEventListener('DOMContentLoaded', () => {
 				'flash-message-car-name'
 			);
 
-			// Play the sound immediately on click
-			audio.play();
+			// // Play the sound immediately on click
+			// audio.play();
 
 			try {
 				const response = await fetch('/fav/addfav', {
